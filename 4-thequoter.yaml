@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: thequoter
+spec:
+  selector:
+    app: thequoter-v1
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      name: http
+      targetPort: http

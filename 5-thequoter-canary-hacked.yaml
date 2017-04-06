@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: thequoter-canary
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: thequoter
+    spec:
+      containers:
+      - name: thequoter
+        image: pastjean/thequoter:v2
+        ports:
+        - name: http
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 20

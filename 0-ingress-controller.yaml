@@ -1,0 +1,49 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: traefik-ingress-controller
+  labels:
+    k8s-app: traefik-ingress-lb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: traefik-ingress-lb
+  template:
+    metadata:
+      labels:
+        k8s-app: traefik-ingress-lb
+        name: traefik-ingress-lb
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - image: traefik
+        name: traefik-ingress-lb
+        resources:
+          limits:
+            cpu: 200m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+            memory: 20Mi
+        ports:
+        - name: http
+          containerPort: 80
+        - containerPort: 8080
+        args:
+        - --web
+        - --kubernetes
+
+--- 
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
