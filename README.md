@@ -1,4 +1,4 @@
-Waqquoter
+# Waqquoter
 
 ```sh
 cd server/
