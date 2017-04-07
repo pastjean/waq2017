@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: thequoter
 spec:
-  replicas: 3
+  replicas: 20
   minReadySeconds: 30
   strategy: 
     type: RollingUpdate
